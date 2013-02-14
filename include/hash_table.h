@@ -19,7 +19,7 @@ typedef struct {
     // Compare function to use.
     bool (*compare)(void *, void *);
     // Hashing function to use.
-    unsigned int (*hash)(void *, void *);
+    unsigned int (*hash)(void *);
     // Array of entries (buckets).
     hash_table_entry **buckets;
     // Number of buckets in the **buckets above.
