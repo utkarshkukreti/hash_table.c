@@ -7,9 +7,8 @@ hash_table *hash_table_new() {
 
     a->compare = NULL;
     a->hash = NULL;
-    // TODO: No hardcoding. Use a prime number table.
-    a->buckets = calloc(sizeof(*a->buckets), 5);
-    a->buckets_count = 5;
+    a->buckets_count = primes[0];
+    a->buckets = calloc(sizeof(*a->buckets), a->buckets_count);
     a->entries_count = 0;
 
     return a;
