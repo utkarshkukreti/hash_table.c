@@ -38,6 +38,8 @@ bool hash_table_put(hash_table *ht, void *key, void *value) {
             }
             ptr->next = hte;
         }
+        // This was a new entry, increment entries_count.
+        ht->entries_count++;
     }
 
     return true;

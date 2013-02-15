@@ -20,10 +20,13 @@ void test_hash_table() {
         a->hash = hash_table_int_hash;
         // key and value can only be pointers
         int i1 = 10, i2 = 20, i3 = 30;
+        check("entries_count == 0", a->entries_count == 0);
         check("put i1, i2", hash_table_put(a, &i1, &i2));
+        check("entries_count == 1", a->entries_count == 1);
         check("get i1 == i2", hash_table_get(a, &i1) == &i2);
         check("get i2 == NULL", hash_table_get(a, &i2) == NULL);
         check("put i1, i3", hash_table_put(a, &i1, &i3));
+        check("entries_count == 1", a->entries_count == 1);
         check("get i1 == i3", hash_table_get(a, &i1) == &i3);
     }
 }
