@@ -71,6 +71,23 @@ void test_hash_table() {
         check("get 66 == 66", hash_table_get(a, &array[66]) == &array[66]);
         check("get 97 == 97", hash_table_get(a, &array[97]) == &array[97]);
     }
+
+    check_start_group("hash_table_delete()", 1);
+    {
+        hash_table *a = hash_table_new();
+        a->compare = hash_table_int_compare;
+        a->hash = hash_table_int_hash;
+        int i1 = 1, i2 = 2;
+        check("entries_count == 0", a->entries_count == 0);
+        check("delete i1 == false", hash_table_delete(a, &i1) == false);
+        check("put i1, i2", hash_table_put(a, &i1, &i2) == true);
+        check("entries_count == 1", a->entries_count == 1);
+        check("delete i1", hash_table_delete(a, &i1) == true);
+        check("entries_count == 0", a->entries_count == 0);
+        check("get i1 == NULL", hash_table_get(a, &i1) == NULL);
+        check("delete i1", hash_table_delete(a, &i1) == false);
+        check("entries_count == 0", a->entries_count == 0);
+    }
 }
 
 // http://xkcd.com/221/

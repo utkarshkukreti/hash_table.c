@@ -35,6 +35,8 @@ hash_table *hash_table_new();
 
 bool hash_table_put(hash_table *ht, void *key, void *value);
 void *hash_table_get(hash_table *ht, void *key);
+bool hash_table_delete(hash_table *ht, void *key);
+
 hash_table_entry *hash_table_get_entry(hash_table *ht, void *key);
 
 bool hash_table_int_compare(void *a, void *b);

@@ -57,6 +57,37 @@ void *hash_table_get(hash_table *ht, void *key) {
     return NULL;
 }
 
+bool hash_table_delete(hash_table *ht, void *key) {
+    hash_table_entry *hte;
+    hte = hash_table_get_entry(ht, key);
+    if(hte == NULL) {
+        // key doesn't even exist!
+        return false;
+    }
+
+    unsigned int hash = ht->hash(key);
+    int bucket_index = hash % ht->buckets_count;
+    hash_table_entry **bucket = &ht->buckets[bucket_index];
+    // Find the element in this bucket
+    if(*bucket == hte) {
+        // This IS the first node.
+        *bucket = (*bucket)->next;
+    } else {
+        // TODO: This could go into an infinite loop if something is wrong
+        // with the table.
+        // Fix it.
+        while((*bucket)->next != hte) {
+            *bucket = (*bucket)->next;
+        }
+        // bucket->next == hte, so set bucket's next to hte's next!
+        (*bucket)->next = hte->next;
+    }
+
+    // Successfully deleted.
+    ht->entries_count--;
+    return true;
+}
+
 hash_table_entry *hash_table_get_entry(hash_table *ht, void *key) {
     unsigned int hash = ht->hash(key);
     int bucket = hash % ht->buckets_count;
