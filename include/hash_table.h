@@ -4,6 +4,9 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+// resize buckets when entries_count / buckets_count >= HASH_TABLE_MAX_LOAD
+#define HASH_TABLE_MAX_LOAD 2
+
 typedef struct hash_table_entry {
     // The actual hash value.
     unsigned int hash;
@@ -36,5 +39,7 @@ hash_table_entry *hash_table_get_entry(hash_table *ht, void *key);
 
 bool hash_table_int_compare(void *a, void *b);
 unsigned int hash_table_int_hash(void *a);
+
+bool hash_table_ensure_load(hash_table *ht);
 
 #endif

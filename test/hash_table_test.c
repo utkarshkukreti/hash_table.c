@@ -53,6 +53,24 @@ void test_hash_table() {
         check("buckets[4]->next->next != NULL",
                 a->buckets[4]->next->next != NULL);
     }
+
+    check_start_group("multiple hash_table_{get,put} should resize buckets", 1);
+    {
+        hash_table *a = hash_table_new();
+        a->compare = hash_table_int_compare;
+        a->hash = hash_table_int_hash;
+        int i;
+        int *array = malloc(sizeof(int) * 100);
+        for(i = 0; i < 100; i++) {
+            array[i] = i;
+            hash_table_put(a, &array[i], &array[i]);
+        }
+        check("entries_count == 100", a->entries_count == 100);
+        check("buckets_count > 5", a->buckets_count > 5);
+        check("get 15 == 15", hash_table_get(a, &array[15]) == &array[15]);
+        check("get 66 == 66", hash_table_get(a, &array[66]) == &array[66]);
+        check("get 97 == 97", hash_table_get(a, &array[97]) == &array[97]);
+    }
 }
 
 // http://xkcd.com/221/
